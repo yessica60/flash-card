@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { AuthProvider } from "./src/context/auth";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { ROUTES } from "./src/constant/navigation";
+import SignUp from "./src/components/organims/sign-up";
+import Login from "./src/components/organims/login";
+import Flashcards from "./src/components/organims/flash-card";
+import Cards from "./src/components/organims/card";
 export default function App() {
+  const Stack = createStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name={ROUTES.login} component={Login} />
+          <Stack.Screen
+            name={ROUTES.signup}
+            component={SignUp}
+            options={{
+              headerShown: true,
+              headerBackTitleVisible: true,
+              title: "",
+            }}
+          />
+          <Stack.Screen name={ROUTES.flashcards} component={Flashcards} />
+          <Stack.Screen name={ROUTES.cards.name} component={Cards} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
